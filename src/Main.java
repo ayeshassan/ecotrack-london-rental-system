@@ -53,11 +53,9 @@ public class Main {
         System.out.print("\nEnter the ID of the vehicle you want to rent: ");
         String chosenId = scanner.nextLine().trim();
 
-        System.out.print("Enter number of hours: ");
-        int hours = Integer.parseInt(scanner.nextLine().trim());
-
         try {  //this returns whatever vehicle the user picked and stores it in rented
             Vehicle rented = manager.rentVehicle(chosenId);
+            int hours = readHours(scanner);
             String rentedVehicleName = rented.getVehicleType();
             double cost = rented.calculateCost(hours);
 
@@ -79,19 +77,18 @@ public class Main {
             System.out.print("\nDo you want to rent another vehicle? (yes/no): ");
             String continueChoice = scanner.nextLine().trim().toLowerCase();
 
-            if (continueChoice.equals("yes")) {
+            if (continueChoice.equals("yes") || continueChoice.equals("y")) {
                 manager.printInventory();
 
                 System.out.print("\nEnter the ID of the vehicle you want to rent: ");
                 String secondChosenId = scanner.nextLine().trim();
 
-                System.out.print("Enter number of hours: ");
-                int secondHours = Integer.parseInt(scanner.nextLine().trim());
-
                 try {
                     Vehicle secondRented = manager.rentVehicle(secondChosenId);
+                    int secondHours = readHours(scanner);
                     String secondRentedName = secondRented.getVehicleType();
                     double secondCost = secondRented.calculateCost(secondHours);
+                    System.out.println(secondRentedName + " (" + secondChosenId + ") rented successfully.");
 
                     rentedIds.add(secondChosenId);
                     rentedNames.add(secondRentedName);
@@ -123,7 +120,7 @@ public class Main {
             System.out.print("\nWould you like to return a vehicle? (yes/no): ");
             String returnChoice = scanner.nextLine().trim().toLowerCase();
 
-            while (returnChoice.equals("yes")) {
+            while (returnChoice.equals("yes") || returnChoice.equals("y")) {
                 System.out.println("\nYour rented vehicles:");
                 for (int i = 0; i < rentedIds.size(); i++) {
                     System.out.println("- " + rentedNames.get(i) + " (" + rentedIds.get(i) + ")");
@@ -156,7 +153,23 @@ public class Main {
 
         scanner.close();
     }
+
+    // Keeps asking until the user types a whole number greater than 0
+    private static int readHours(Scanner scanner) {
+        while (true) {
+            System.out.print("Enter number of hours: ");
+            String input = scanner.nextLine().trim();
+            try {
+                int hours = Integer.parseInt(input);
+                if (hours > 0) {
+                    return hours;
+                }
+                System.out.println("Please enter a number greater than 0.");
+            } catch (NumberFormatException e) {
+                System.out.println("Please enter a whole number, e.g. 3.");
+            }
+        }
+    }
 }
-//java -jar "lib/junit-platform-console-standalone-1.10.0 (1).jar" -cp bin --scan-classpath
+//java -jar "lib/junit-platform-console-standalone-1.10.0.jar" -cp bin --scan-classpath
 //java -cp bin Main
-//java -jar "lib/junit-platform-console-standalone-1.10.0 (1).jar" -cp bin --scan-classpath

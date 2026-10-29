@@ -23,7 +23,6 @@ public class RentalManager {
                     throw new RentalException("Vehicle already rented!");
                 }
                 v.setAvailable(false);
-                System.out.println(v.getVehicleType() + " (" + id + ") rented successfully.");
                 return v;
             }
             //The exception is thrown in RentalManager when a vehicle is already rented. 
