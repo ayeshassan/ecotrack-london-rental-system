@@ -1,0 +1,10 @@
+# Compiled output and logs
+bin/
+out/
+*.class
+rental_log.txt
+
+# Editor / OS files
+.vscode/
+.idea/
+.DS_Store
